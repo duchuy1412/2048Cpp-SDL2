@@ -1,4 +1,4 @@
-﻿Build started 3/20/2018 4:49:11 PM.
+﻿Build started 3/21/2018 2:23:26 AM.
      1>Project "C:\Users\Dell\documents\visual studio 2010\Projects\2048-SDL\game2048\game2048.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\game2048.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -21,4 +21,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.87
+Time Elapsed 00:00:02.40

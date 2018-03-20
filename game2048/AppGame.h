@@ -4,12 +4,11 @@
 
 #include "globalvars.h"
 
-class AppGame
+class Application
 {
 public:
-	void loopGame();
+	
 private:
-	void newGame();
 
 };
 
