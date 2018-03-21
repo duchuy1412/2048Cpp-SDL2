@@ -3,13 +3,27 @@
 #define APPGAME_H_H
 
 #include "globalvars.h"
+#include "draw.h"
 
 class Application
 {
 public:
-	
-private:
+	int randomNumber();
 
+	bool isFull();
+
+	void generateNumber();
+
+	void Down();
+
+	void Up();
+
+	void Right();
+
+	void Left();
+
+private:
+	bool lose;
 };
 
-#endif /* APPGAME_H_ */
+#endif

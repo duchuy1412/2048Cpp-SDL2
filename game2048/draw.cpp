@@ -2,11 +2,22 @@
 #include "draw.h"
 
 
-SDL_Color COLOR_TEXT = {238,228,218};
+SDL_Color COLOR_TEXT = {41,57,85};
 SDL_Color COLOR_LOGO = {126, 120, 114};
 SDL_Color COLOR_NUM_1 = {119,110,101};
 SDL_Color COLOR_NUM_2 = {249, 246, 242};
-
+SDL_Color COLOR_0 = {205,193,180};
+SDL_Color COLOR_2 = {238, 228, 218};
+SDL_Color COLOR_4 = {237, 224, 200};
+SDL_Color COLOR_8 = {242, 177, 121};
+SDL_Color COLOR_16 = {245, 149, 99};
+SDL_Color COLOR_32 = {246, 124, 95};
+SDL_Color COLOR_64 = {246, 94, 59};
+SDL_Color COLOR_128 = {237, 207, 114};
+SDL_Color COLOR_256 = {237, 204, 97};
+SDL_Color COLOR_512 = {237, 200, 80};
+SDL_Color COLOR_1024 = {237, 197, 63};
+SDL_Color COLOR_2048 = {237, 194, 46};
 
 Game::Game(const char* title, int width, int height)
 {
@@ -38,31 +49,26 @@ void Game::draw_label(const char * font, const int& size, SDL_Color color, const
 }
 
 void Game::draw_grid(){
+	
 	/*Set color background*/
 	SDL_SetRenderDrawColor(renderer, 250, 248, 239, 255);
 	SDL_RenderClear(renderer);
 
 	int top = 200, left = 50;
-	int left_label = 250, top_label = 30;
-
-	/*Draw Label*/
-	label_1.x = left_label;
-	label_1.y = top_label;
-	label_1.w = 100;
-	label_1.h = 60;
-
-	label_2.x = left_label + label_1.w + 10;
-	label_2.y = top_label;
-	label_2.w = 100;
-	label_2.h = 60;
-	//draw shape
-	SDL_SetRenderDrawColor(renderer,156,201,245,255);
-	SDL_RenderFillRect(renderer, &label_1);
-	SDL_RenderFillRect(renderer, &label_2);
+	
 	//Score
 	
-	draw_label("fonts.ttf", FONT_SIZE_TINY, COLOR_TEXT , "Score", label_1.x+30, label_1.y+5, renderer);
-	draw_label("fonts.ttf", FONT_SIZE_TINY, COLOR_TEXT, "Best", label_2.x+35, label_2.y+5, renderer);
+	draw_label("fonts.ttf", FONT_SIZE_TINY, COLOR_TEXT , "Score:", 300, 10, renderer);
+	draw_label("fonts.ttf", FONT_SIZE_TINY, COLOR_TEXT, "Best:", 300, 50, renderer);
+
+	/*Score*/
+	char buf[9];
+	_itoa_s(score, buf, 10);
+	draw_label("fonts.ttf", FONT_SIZE_SMALL, COLOR_TEXT, buf, 360, 5, renderer);
+	
+	char buffer[9];
+	_itoa_s(highScore, buffer, 10);
+	draw_label("fonts.ttf", FONT_SIZE_SMALL, COLOR_TEXT, buffer, 360, 45, renderer);
 
 
 	/*color grid*/
@@ -107,27 +113,11 @@ void Game::draw_grid(){
 	/*Logo Game*/
 	draw_label("fonts.ttf", FONT_SIZE_GREAT, COLOR_LOGO, "2048", 50, 50, renderer);
 
-	
-
-	/*Score*/
-	//std::stringstream ss; ss << score;
-
-	//const char * text = ss.str().c_str();
-	//draw_label("times.ttf", 24, 255,255,255, text, label_1.x+58-ss.str().length()*10, label_1.y+25, renderer);
-	
-	//std::stringstream ss1; ss1 << highScore;
-
-	//const char * text1 = ss1.str().c_str();
-	//draw_label("times.ttf", 24, 255,255,255, text1, label_2.x+55-ss1.str().length()*10, label_2.y+25, renderer);
-
-
 
 	/*Draw tiles*/
 	int _x = left+10, _y = top+10;
 
 	int _Step = 100, _w = 90, _h = 90; //tile 90x90
-
-//	SDL_SetRenderDrawColor(renderer,205,193,180,0); 
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -138,40 +128,47 @@ void Game::draw_grid(){
 			tile[i][j].w = _w;
 			tile[i][j].h = _h;
 	   
-			paint_tile(i, j, "8", FONT_SIZE_BIG, COLOR_NUM_2, COLOR_NUM_1); 
+			paint_tile(i, j, "", FONT_SIZE_TINY, COLOR_0, COLOR_NUM_1); 
 		}
 	}
-	//draw_label("fonts.ttf", FONT_SIZE_BIG, COLOR_NUM_1, "2", 90, 225, renderer);
-
+	
 	//render
 	SDL_RenderPresent(renderer);
 }
 
 
-void Game::paint_tile(int& i, int& j, const char * text, const int font_size, SDL_Color color_bg, SDL_Color color){
+void Game::paint_tile(int& i, int& j, const char * text, int font_size, SDL_Color color_bg, SDL_Color color){
 	SDL_SetRenderDrawColor(renderer,color_bg.r, color_bg.g, color_bg.b,255); 
 	SDL_RenderFillRect(renderer, &tile[i][j]);
 	TTF_Font * fonts = TTF_OpenFont("fonts.ttf", font_size);
 	SDL_Surface * surface = TTF_RenderText_Blended(fonts, text, color);
 	SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_Rect srcRest;
+	SDL_Rect srcRect;
 	SDL_Rect desRect;
-	TTF_SizeText(fonts, text, &srcRest.w, &srcRest.h);
+	TTF_SizeText(fonts, text, &srcRect.w, &srcRect.h);
  
-	srcRest.x = 0;
-	srcRest.y =  0;
-	int leng_num = sizeof(text)/sizeof(char);
+	srcRect.x = 0;
+	srcRect.y =  0;
+	int leng_num = strlen(text);
 	int __left = 0;
 	int __top = 0;
 	switch(leng_num)
 	{
 	 case 1:
-		 __left = 35;
+		 __left = 30;
 		 __top = 15;
 		 break;
 	 case 2:
-		 __left = 25;
+		 __left = 15;
 		 __top = 15;
+		 break;
+	 case 3:
+		 __left = 10;
+		 __top = 22;
+		 break;
+	 case 4:
+		 __left = 3;
+		 __top = 24;
 		 break;
 	 default:
 		 __left = 0;
@@ -180,14 +177,62 @@ void Game::paint_tile(int& i, int& j, const char * text, const int font_size, SD
 	desRect.x = tile[i][j].x+__left;
 	desRect.y = tile[i][j].y+__top;
  
-	desRect.w = srcRest.w;
-	desRect.h = srcRest.h;
+	desRect.w = srcRect.w;
+	desRect.h = srcRect.h;
 	SDL_QueryTexture(texture, NULL, NULL, &desRect.w, &desRect.h);
-	SDL_RenderCopy(renderer, texture, &srcRest, &desRect);
+	SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
 	
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
 	TTF_CloseFont(fonts);
+}
+
+void Game::update()
+{
+	for (int i=0; i<4; i++){
+		for (int j=0; j<4; j++){
+			switch(Matrix[i][j])
+			{
+			case 2:
+				paint_tile(i, j, "2", FONT_SIZE_MEDIUM, COLOR_2, COLOR_NUM_1); 
+				break;
+			case 4:
+				paint_tile(i, j, "4", FONT_SIZE_MEDIUM, COLOR_4, COLOR_NUM_1); 
+				break;
+			case 8:
+				paint_tile(i, j, "8", FONT_SIZE_MEDIUM, COLOR_8, COLOR_NUM_2); 
+				break;
+			case 16:
+				paint_tile(i, j, "16", FONT_SIZE_MEDIUM, COLOR_16, COLOR_NUM_2); 
+				break;
+			case 32:
+				paint_tile(i, j, "32", FONT_SIZE_MEDIUM, COLOR_32, COLOR_NUM_2); 
+				break;
+			case 64:
+				paint_tile(i, j, "64", FONT_SIZE_MEDIUM, COLOR_64, COLOR_NUM_2); 
+				break;
+			case 128:
+				paint_tile(i, j, "128", FONT_SIZE_NORMAL, COLOR_128, COLOR_NUM_2); 
+				break;
+			case 256:
+				paint_tile(i, j, "256", FONT_SIZE_NORMAL, COLOR_256, COLOR_NUM_2); 
+				break;
+			case 512:
+				paint_tile(i, j, "512", FONT_SIZE_NORMAL, COLOR_512, COLOR_NUM_2);
+				break;
+			case 1024:
+				paint_tile(i, j, "1024", FONT_SIZE_NORMAL, COLOR_1024, COLOR_NUM_2);
+				break;
+			case 2048:
+				paint_tile(i, j, "2048", FONT_SIZE_NORMAL, COLOR_2048, COLOR_NUM_2);
+				win = true;
+				break;
+			default:
+				paint_tile(i, j, "", FONT_SIZE_TINY, COLOR_0, COLOR_NUM_1); 
+				break;
+			}
+		}
+	} 
 }
 
 void Game::handleEvent()
@@ -226,6 +271,20 @@ void Game::handleEvent()
 				break;
 		}
 
+}
+
+void Game::checkbestScore()
+{
+	std::ifstream fScore ("score.txt");
+
+	if(fScore.is_open())
+	{
+		fScore >> highScore;
+		fScore.close();
+	}
+	else
+		std::cout << "can't open file to read";
+	
 }
 
 void Game::newGame()

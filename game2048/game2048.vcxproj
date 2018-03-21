@@ -78,6 +78,9 @@
     <ClInclude Include="draw.h" />
     <ClInclude Include="globalvars.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="score.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
