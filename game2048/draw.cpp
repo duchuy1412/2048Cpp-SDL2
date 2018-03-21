@@ -12,6 +12,7 @@ Game::Game(const char* title, int width, int height)
 {
 	TTF_Init();
     SDL_Init(SDL_INIT_VIDEO);
+
 	window = SDL_CreateWindow(title,SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);  
 	renderer = SDL_CreateRenderer(window, -1, 0);
 }
@@ -126,7 +127,7 @@ void Game::draw_grid(){
 
 	int _Step = 100, _w = 90, _h = 90; //tile 90x90
 
-	SDL_SetRenderDrawColor(renderer,205,193,180,0); 
+//	SDL_SetRenderDrawColor(renderer,205,193,180,0); 
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -136,16 +137,58 @@ void Game::draw_grid(){
 			tile[i][j].y = _y + j*_Step;
 			tile[i][j].w = _w;
 			tile[i][j].h = _h;
-				
-			SDL_RenderFillRect(renderer, &tile[i][j]);
+	   
+			paint_tile(i, j, "8", FONT_SIZE_BIG, COLOR_NUM_2, COLOR_NUM_1); 
 		}
 	}
-	draw_label("fonts.ttf", FONT_SIZE_BIG, COLOR_NUM_1, "2", 90, 225, renderer);
+	//draw_label("fonts.ttf", FONT_SIZE_BIG, COLOR_NUM_1, "2", 90, 225, renderer);
 
 	//render
 	SDL_RenderPresent(renderer);
 }
 
+
+void Game::paint_tile(int& i, int& j, const char * text, const int font_size, SDL_Color color_bg, SDL_Color color){
+	SDL_SetRenderDrawColor(renderer,color_bg.r, color_bg.g, color_bg.b,255); 
+	SDL_RenderFillRect(renderer, &tile[i][j]);
+	TTF_Font * fonts = TTF_OpenFont("fonts.ttf", font_size);
+	SDL_Surface * surface = TTF_RenderText_Blended(fonts, text, color);
+	SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Rect srcRest;
+	SDL_Rect desRect;
+	TTF_SizeText(fonts, text, &srcRest.w, &srcRest.h);
+ 
+	srcRest.x = 0;
+	srcRest.y =  0;
+	int leng_num = sizeof(text)/sizeof(char);
+	int __left = 0;
+	int __top = 0;
+	switch(leng_num)
+	{
+	 case 1:
+		 __left = 35;
+		 __top = 15;
+		 break;
+	 case 2:
+		 __left = 25;
+		 __top = 15;
+		 break;
+	 default:
+		 __left = 0;
+		 break;
+	}
+	desRect.x = tile[i][j].x+__left;
+	desRect.y = tile[i][j].y+__top;
+ 
+	desRect.w = srcRest.w;
+	desRect.h = srcRest.h;
+	SDL_QueryTexture(texture, NULL, NULL, &desRect.w, &desRect.h);
+	SDL_RenderCopy(renderer, texture, &srcRest, &desRect);
+	
+	SDL_DestroyTexture(texture);
+	SDL_FreeSurface(surface);
+	TTF_CloseFont(fonts);
+}
 
 void Game::handleEvent()
 {
