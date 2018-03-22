@@ -40,8 +40,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="score.txt">
-      <Filter>Source Files</Filter>
+    <None Include="..\Debug\score.txt">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -79,7 +79,7 @@
     <ClInclude Include="globalvars.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="score.txt" />
+    <None Include="..\Debug\score.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

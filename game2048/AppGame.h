@@ -2,28 +2,35 @@
 #ifndef APPGAME_H_
 #define APPGAME_H_H
 
-#include "globalvars.h"
 #include "draw.h"
 
 class Application
 {
 public:
+	Application();
+	
+	~Application();
+
 	int randomNumber();
 
-	bool isFull();
+	void CreateRandomCard();
 
-	void generateNumber();
+	bool isFullBoard();
 
-	void Down();
+	bool isLose();
 
-	void Up();
+	bool doDown();
 
-	void Right();
+	bool doUp();
 
-	void Left();
+	bool doRight();
+
+	bool doLeft();
+
+	void handleInput();
 
 private:
-	bool lose;
+	
 };
 
 #endif

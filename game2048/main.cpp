@@ -1,28 +1,48 @@
 ﻿
-#include "globalvars.h"
-#include "draw.h"
+#include "AppGame.h"
 
 Game* ptrGame = nullptr;
+Application* app = nullptr;
 
-int main(int argv, char* argo[]){   
+int main(int argv, char* argo[]){
+	srand(static_cast<unsigned int>(time(NULL)));
+
 	//Create window
-	ptrGame = new Game("2048", 500, 650);
+	ptrGame = new Game("2048", width, height);
+	app = new Application();
 	
 	//check best score
-	ptrGame->checkbestScore();
+	ptrGame->checkBestScore();
 
 	//draw board game
 	ptrGame->draw_grid();
-	
 
 	//loop game
 	while(!quit){
 		//request user
 		ptrGame->handleEvent();
 		
-		//
+		//input user
+		app->handleInput();
+		
+		//update
+		ptrGame->render();
 
+		ptrGame->saveBestScore();
+
+		if (app->isLose())
+			{
+				ptrGame->info("YOU LOSE!");
+			}
+
+		if(win){
+				ptrGame->info("YOU WIN!");
+			}
 	}
+
+	
+		
+
 	ptrGame->close();
-	return 0;
+	return 0;
 }
