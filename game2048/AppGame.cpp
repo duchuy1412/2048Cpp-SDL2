@@ -52,7 +52,6 @@ bool Application::isFullBoard()
 
 bool Application::isLose()
 {
-	bool canMove;
 	for (int i=0; i<3; i++){
 		for (int j=0; j<3; j++){
 			if (cards[i][j]==cards[i][j+1] || cards[i][j]==cards[i+1][j]){
@@ -60,7 +59,9 @@ bool Application::isLose()
 			}
 		}
 	}
-	if ( isFullBoard() && !canMove) return true;
+	if ( isFullBoard() && !canMove) {
+		return true;
+	}
 	return false;
 }
 
@@ -124,8 +125,9 @@ bool Application::doUp()
             }
         }
     }
-    if(isDo)
+    if(isDo){
         CreateRandomCard();
+	}
     return isDo;
 }
 

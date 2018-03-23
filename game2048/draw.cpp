@@ -340,10 +340,10 @@ void Game::info(const char * txt)
 	SDL_Rect dstrect = { 100, 350, texW, texH };
 	SDL_RenderCopy(renderer, texture, NULL, &dstrect);
 	//freesurface
+	SDL_RenderPresent(renderer);
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
 	TTF_CloseFont(fonts);
-	SDL_RenderPresent(renderer);
 }
 
 void Game::close()

@@ -9,8 +9,10 @@ int main(int argv, char* argo[]){
 
 	//Create window
 	ptrGame = new Game("2048", width, height);
+
 	app = new Application();
 	
+	replay:
 	//check best score
 	ptrGame->checkBestScore();
 
@@ -29,19 +31,23 @@ int main(int argv, char* argo[]){
 		ptrGame->render();
 
 		ptrGame->saveBestScore();
-
-		if (app->isLose())
+		
+		if (app->isLose() == true)
 			{
 				ptrGame->info("YOU LOSE!");
+				ptrGame->newGame();
+				SDL_Delay(3000);
+				goto replay;
 			}
 
 		if(win){
 				ptrGame->info("YOU WIN!");
-			}
-	}
-
-	
+				ptrGame->newGame();
+				SDL_Delay(5000);
+				goto replay;
+		}		
 		
+	}
 
 	ptrGame->close();
 	return 0;

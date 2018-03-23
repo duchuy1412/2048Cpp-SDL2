@@ -20,6 +20,7 @@ extern int width, height;
 extern int cards[4][4];
 extern int score;
 extern int highScore;
+extern bool canMove;
 extern bool quit;
 extern bool win;
 #endif
