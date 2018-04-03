@@ -10,14 +10,18 @@ public:
 	Application();
 	
 	~Application();
+	
+	bool isLose();
 
+	void handleInput();
+
+private:
+	
 	int randomNumber();
 
 	void CreateRandomCard();
 
 	bool isFullBoard();
-
-	bool isLose();
 
 	bool doDown();
 
@@ -26,11 +30,6 @@ public:
 	bool doRight();
 
 	bool doLeft();
-
-	void handleInput();
-
-private:
-	
 };
 
-#endif
+#endif 
