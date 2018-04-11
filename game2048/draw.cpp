@@ -2,23 +2,6 @@
 #include "draw.h"
 #include "AppGame.h"
 
-SDL_Color COLOR_TEXT = {41,57,85};
-SDL_Color COLOR_LOGO = {126, 120, 114};
-SDL_Color COLOR_NUM_1 = {119,110,101};
-SDL_Color COLOR_NUM_2 = {249, 246, 242};
-SDL_Color COLOR_0 = {205,193,180};
-SDL_Color COLOR_2 = {238, 228, 218};
-SDL_Color COLOR_4 = {237, 224, 200};
-SDL_Color COLOR_8 = {242, 177, 121};
-SDL_Color COLOR_16 = {245, 149, 99};
-SDL_Color COLOR_32 = {246, 124, 95};
-SDL_Color COLOR_64 = {246, 94, 59};
-SDL_Color COLOR_128 = {237, 207, 114};
-SDL_Color COLOR_256 = {237, 204, 97};
-SDL_Color COLOR_512 = {237, 200, 80};
-SDL_Color COLOR_1024 = {237, 197, 63};
-SDL_Color COLOR_2048 = {237, 194, 46};
-
 Game::Game(const char* title, int width, int height)
 {
 	TTF_Init();
@@ -316,6 +299,7 @@ void Game::saveBestScore()
 
 void Game::newGame()
 {
+	//reset variables
 	score = 0;
 	win = false;
 	for (int i = 0; i < 4; i++)
@@ -325,6 +309,9 @@ void Game::newGame()
 			cards[i][j] = 0;
 		}
 	}
+
+	//reset game
+	draw_grid();
 	Application* a;
 	a = new Application();
 }

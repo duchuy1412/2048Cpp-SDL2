@@ -12,7 +12,6 @@ int main(int argv, char* argo[]){
 
 	app = new Application();
 	
-	replay:
 	//check best score
 	ptrGame->checkBestScore();
 
@@ -31,20 +30,19 @@ int main(int argv, char* argo[]){
 		ptrGame->render();
 
 		ptrGame->saveBestScore();
-		
-		if (app->isLose() == true)
+
+		if (app->isLose() == true) // LOSE
 			{
 				ptrGame->info("YOU LOSE!");
+				SDL_Delay(5000);
 				ptrGame->newGame();
-				SDL_Delay(3000);
-				goto replay;
 			}
 
-		if(win){
+		if(win) // WIN
+		{
 				ptrGame->info("YOU WIN!");
-				ptrGame->newGame();
 				SDL_Delay(5000);
-				goto replay;
+				ptrGame->newGame();
 		}		
 		
 	}

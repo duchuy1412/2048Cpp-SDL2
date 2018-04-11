@@ -6,9 +6,9 @@
 Application::Application()
 {
 	//create cards to begin Game
-	CreateRandomCard();
+	CreateRandomCard(); //first card
 
-	CreateRandomCard();
+	CreateRandomCard(); //second card
 }
 
 Application::~Application()
@@ -50,17 +50,22 @@ bool Application::isFullBoard()
 	return true;
 }
 
-bool Application::isLose()
+bool Application::isCanMove()
 {
 	for (int i=0; i<3; i++){
 		for (int j=0; j<3; j++){
 			if (cards[i][j]==cards[i][j+1] || cards[i][j]==cards[i+1][j]){
-				canMove = true;
+				return true;
 			}
 		}
 	}
-	if ( isFullBoard() && !canMove) {
-		return true;
+	return false;
+}
+
+bool Application::isLose()
+{
+	if ( isFullBoard() == true && isCanMove() == false){
+		return true; // Lose
 	}
 	return false;
 }

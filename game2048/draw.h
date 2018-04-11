@@ -4,13 +4,6 @@
 
 #include "globalvars.h"
 
-const int FONT_SIZE_TINY = 15;
-const int FONT_SIZE_SMALL = 25;
-const int FONT_SIZE_NORMAL = 35;
-const int FONT_SIZE_MEDIUM = 45;
-const int FONT_SIZE_BIG = 50;
-const int FONT_SIZE_GREAT = 70;
-
 class Game
 {
 public:

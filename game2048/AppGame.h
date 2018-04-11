@@ -15,8 +15,10 @@ public:
 
 	void handleInput();
 
+	bool isCanMove();
+
 private:
-	
+
 	int randomNumber();
 
 	void CreateRandomCard();
@@ -32,4 +34,4 @@ private:
 	bool doLeft();
 };
 
-#endif 
+#endif APPGAME_H_
