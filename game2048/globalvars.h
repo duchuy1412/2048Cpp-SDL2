@@ -22,6 +22,7 @@ extern int highScore;
 extern bool quit;
 extern bool win;
 
+
 //TEXT-FONT-SIZE
 const int FONT_SIZE_TINY = 15;
 const int FONT_SIZE_SMALL = 25;

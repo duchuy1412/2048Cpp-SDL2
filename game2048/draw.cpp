@@ -7,7 +7,7 @@ Game::Game(const char* title, int width, int height)
 	TTF_Init();
     SDL_Init(SDL_INIT_VIDEO);
 
-	window = SDL_CreateWindow(title,SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);  
+	window = SDL_CreateWindow("2048",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);  
 	renderer = SDL_CreateRenderer(window, -1, 0);
 }
 
@@ -32,11 +32,11 @@ void Game::draw_label(const char * font, const int& size, SDL_Color color, const
 }
 
 void Game::draw_grid(){
+	int top = 200, left = 50, width_bg = 410;
+	
 	/*Set color background*/
 	SDL_SetRenderDrawColor(renderer, 250, 248, 239, 255);
 	SDL_RenderClear(renderer);
-
-	int top = 200, left = 50;
 	
 	//Score
 	
@@ -50,32 +50,14 @@ void Game::draw_grid(){
 	_itoa_s(highScore, buffer, 10);
 	draw_label("fonts.ttf", FONT_SIZE_SMALL, COLOR_TEXT, buffer, 360, 45, renderer);
 
-	/*color grid*/
+	/*color background*/
 	SDL_SetRenderDrawColor(renderer, 187, 173, 160, 255);
-	int i;
-	/*draw grid*/
-	int grid_x = 50, grid_y = 200, step = 100;
 
-	for(i = 0; i <= 5; i++)
-	{
-		grid_vertical[i].x = grid_x + i*step;
-		grid_vertical[i].y = grid_y;
-		grid_vertical[i].w = 10;
-		grid_vertical[i].h = 410;
-
-		SDL_RenderFillRect(renderer, &grid_vertical[i]);
-	}
-
-	for(i = 0; i <= 5; i++)
-	{
-		grid_horizontal[i].x = grid_x;
-		grid_horizontal[i].y = grid_y + i*step;
-		grid_horizontal[i].w = 410;
-		grid_horizontal[i].h = 10;
-
-		SDL_RenderFillRect(renderer, &grid_horizontal[i]);
-	}
-
+	background.x = left;
+	background.y = top;
+	background.w = width_bg;
+	background.h = width_bg;
+	SDL_RenderFillRect(renderer, &background);
 
 	/*Button New Game*/
 	SDL_SetRenderDrawColor(renderer,143,122,102, 255); // color button new game
@@ -185,7 +167,7 @@ void Game::paint_tile(int& i, int& j, const char * text, int font_size, SDL_Colo
 
 void Game::render()
 {
-	updateScore();
+	Game::updateScore();
 	for (int i=0; i<4; i++){
 		for (int j=0; j<4; j++){
 			switch(cards[i][j])
@@ -239,7 +221,7 @@ void Game::handleEvent()
 		switch (event.type)
 			{
 			case SDL_QUIT:
-				quit = true;
+				Game::quit = true;
 				break;
 			
 			case SDL_MOUSEBUTTONDOWN:
@@ -247,7 +229,7 @@ void Game::handleEvent()
 							int X=event.button.x;
 							int Y=event.button.y;
 							if (X>newgame.x && X < newgame.x + newgame.w && Y>newgame.y && Y < newgame.y + newgame.h){
-								newGame();
+								Game::newGame();
 							}
 				}
 				break;	

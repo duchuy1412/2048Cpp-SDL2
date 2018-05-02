@@ -18,6 +18,9 @@ public:
 	void info(const char * txt); //result game
 	void newGame();
 	void close();
+	 bool quit;
+	 bool win;
+
 private:
 	void draw_label(const char * font, const int& size, SDL_Color color, const char * text, int x, int y, SDL_Renderer* renderer);
 	void paint_tile(int& i, int& j, const char * text, const int font_size, SDL_Color color_bg, SDL_Color color);
@@ -26,8 +29,7 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Window* window;
 	SDL_Event event;
-	SDL_Rect grid_vertical[5]; //grid
-	SDL_Rect grid_horizontal[5]; //grid
+	SDL_Rect background; //background 410x410
 	SDL_Rect newgame; //button new game
 	SDL_Rect tile[4][4];
 };
